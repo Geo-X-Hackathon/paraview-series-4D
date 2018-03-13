@@ -8,27 +8,9 @@ import os
 from paraview.simple import *
 
 
-home = raw_input('Enter input: ')
-files = os.listdir(home)
-files = [ fi for fi in files if  fi.endswith(".tif") ]
+input_vrt = raw_input('VRT file: ')
 
-timesteps = []
-tiff_names = []
-
-count = 0
-for i in files:
-    #print([i[8:-4] + home + '/' + i])
-
-    #tiffs[count][0] = i[8:-4]
-    #tiffs[count][1] = home + '/' + i
-    # timesteps.append(float(i[8:-4]))
-
-    tiff_names.append(home + '/' + i)
-    count += 1
-
-timesteps = [0, len(files)-1]
-
-paraview.simple.TIFFSeriesReader(FileNames=tiff_names, TimestepValues=timesteps, ReadAsImageStack=0)
+paraview.simple.ProStarReader(FileName=input_vrt)
 
 Show()
 Render()
