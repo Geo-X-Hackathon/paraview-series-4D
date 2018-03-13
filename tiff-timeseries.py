@@ -6,20 +6,37 @@ Created on Tue Mar 13 15:30:52 2018
 """
 import os
 from paraview.simple import *
+import numpy as np
 
 home = raw_input('Enter input: ')
 files = os.listdir(home)
 files = [ fi for fi in files if  fi.endswith(".tif") ]
-tifffiles = []
-# timestep = i[8:-4]
+# tiffs = np.zeros(2,len(files))
+# print(tiffs)
 
+timesteps = []
+tiff_names = []
+#tiffs = np.empty([len(files), 2])
+#print(tiffs.shape)
+
+count = 0
 for i in files:
-    i = home + '/' + i
-    print i
-    tifffiles.append(i)
- 
+    #print([i[8:-4] + home + '/' + i])
 
-paraview.simple.TIFFSeriesReader(FileNames = tifffiles)
+    #tiffs[count][0] = i[8:-4]
+    #tiffs[count][1] = home + '/' + i
+    # timesteps.append(float(i[8:-4]))
+
+    tiff_names.append(home + '/' + i)
+    count += 1
+
+timesteps = [0, len(files)-1]
+
+#tiffs = {timesteps: tiff_names}
+
+# tiffs = np.array([[files], [timesteps]])
+print(tiffs)
+paraview.simple.TIFFSeriesReader(FileNames=tiff_names, TimestepValues=timesteps)
     
 Show()
 Render()
