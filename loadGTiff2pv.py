@@ -7,7 +7,7 @@ Created on Tue Mar 13 15:30:52 2018
 import os
 from paraview.simple import *
 
-home = '/home/skaiser/Documents/gitdata/GTiff'
+home = raw_input('Enter input: ')
 files = os.listdir(home)
 files = [ fi for fi in files if  fi.endswith(".tif") ]
 
