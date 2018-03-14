@@ -11,12 +11,15 @@ else
     if [ ! -d $output_PATH ]; then
 	mkdir $output_PATH
     fi
+    cd $input_PATH
+    input_files=$( ls elev.dat* )
 
-    #
-    # Put code for GDAL conversion of txt to geoTiff files here ...
-    #
+    for file in ${input_files[@]}; do
+        gdal_translate -of GTiff $input_PATH/$file $output_PATH/${file::-4}.tif
+        gdal_calc.py -A $output_PATH/${file::-4}.tif --outfile=$output_PATH/${file::-4}.tif --calc="A*(A>0)" --NoDataValue=-9999 --overwrite
+    done
 
-    cd $input_PATH/GTiff
+    cd $output_PATH
     tiffs=$( ls *.tif )
     # echo "Tiffs: ${tiffs[@]}"
 
@@ -58,6 +61,6 @@ else
 	echo "$tiff" >> filelist.txt
     done
 
-    gdalbuildvrt -vrtnodata "-9999" -input_file_list filelist.txt -overwrite ${output_PATH}/CAESAR.vrt
+    # gdalbuildvrt -vrtnodata "-9999" -input_file_list filelist.txt -overwrite ${output_PATH}/CAESAR.vrt
 
 fi
