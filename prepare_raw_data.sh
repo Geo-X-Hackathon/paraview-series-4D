@@ -12,24 +12,25 @@ else
 	mkdir $output_PATH
     fi
 
+    # Read txt files
     cd $input_PATH
     input_files=$( ls elev.dat*.txt )
     max_filename_length=0
 
-    for tiff in ${input_files[@]}; do
-	filename_length=${#tiff}
+    for file in ${input_files[@]}; do
+	filename_length=${#file}
 	if [ $filename_length -gt $max_filename_length ]; then
 	    max_filename_length=$filename_length
 	fi
     done
     
-    input_files=$( ls elev.dat*.txt )
+    #input_files=$( ls elev.dat*.txt )
 
     for file in ${input_files[@]}; do
 	filename_length=${#file}
 	if [ $filename_length -le $max_filename_length ]; then
 	    filename_length_diff=$( echo "$max_filename_length - $filename_length" | bc )
-	    echo "Filename is too short ($filename_length chars), adding zeros ..."
+	    echo "Filename $file is too short ($filename_length chars), adding zeros ..."
 	    time_id=${file:9:-4}
 	    new_filename=${file:0:8}
 	    i=0
@@ -53,10 +54,10 @@ else
         gdal_translate -of GTiff $input_PATH/$file $output_PATH/${file::-4}.tif
         # gdal_calc.py -A $output_PATH/${file::-4}.tif --outfile=$output_PATH/${file::-4}.tif --calc="A*(A>0)" --NoDataValue=-9999 --overwrite
 	if [ ! -z $prev_file ]; then
-	    echo "Calculating Diff for ${prev_file::-4} ${file::-4}"
- 	    set -x 
+	    echo "Calculating Diff for ${prev_file} ${file}"
+ 	    # set -x 
 	    gdal_calc.py -A $output_PATH/${file::-4}.tif -B $output_PATH/${prev_file::-4}.tif --outfile=$output_PATH/Diff/${prev_file::-4}--${file::-4}.tif --calc="B-A" --NoDataValue=-9999 --overwrite
-	    unset -x
+	    
 	fi
 	prev_file=$file
     done
