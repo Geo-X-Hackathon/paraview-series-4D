@@ -19,10 +19,10 @@ tiff_timeseries.py
 5. Style the data in paraview:
 - Use the filter 'Warp Scalar' for 3D projections.
 - Activate View -> 'Color Map Editor' to optimize color display
--- 'Rescale to custom range' to fit the actual data range
--- Activating 'Use log scale when mapping data to colors' is very useful for displaying difference data
--- 'Enable opacity mapping for surfaces'
--- Choose Color Space 'Diverging' under Color Mapping Parameters
+- 'Rescale to custom range' to fit the actual data range
+- Activating 'Use log scale when mapping data to colors' is very useful for displaying difference data
+- 'Enable opacity mapping for surfaces'
+- Choose Color Space 'Diverging' under Color Mapping Parameters
 
 
 6. Activate 'View -> Animation View' to navigate through timeseries.
